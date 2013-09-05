@@ -1,23 +1,42 @@
 mws-js
 ======
 
-This is a continuation of the unstable branch of https://github.com/eibbors/mws-js .
-While having very nice ideas, it was incomplete and a bit buggy.
-I needed only the products, orders and feeds APIs, so I have no idea what is the status
-of the rest of the apis
-
-I find Node.js an absolute pleasure to work with and made this rough
-Marketplace web services client as one of my first projects. I still find it
-beats the snot out of PHP, Java, or C# packages Amazon publishes.  
-I use it for real-time integration and/or dashboards for e-commerce clients.
-Note: there may be tons of bugs since I updated the formatting to be a lot
-more user-friendly, but almost all of the documented functions and objects
-should work fine and dandy like cotton candy.
+Complete Amazon marketplace web services client for Node.js.  This project is still a work in progress, not all interfaces are fully tested and working.
 
 Usage
 =====
 
-Simple example
+config
+------
+```javascript
+loginInfo = {
+  locale: 'US',
+  merchantId: 'XXXXXXX',
+  marketplaceId: 'XXXXXXX',
+  accessKeyId: 'XXXXXXX',
+  secretAccessKey: 'XXXXX'
+}
+
+```
+
+.js Example
+-------------
+Fetching a product info:
+```javascript
+var mws = require('mws-js');
+var client = new mws.products.Client(loginInfo);
+
+client.getMatchingProductForId('ASIN', 'B005ISQ7JC', function(res){
+  if (res.error) {
+    console.error(res.error);
+  } else if (res.result) {
+    console.log(res.result);
+  }
+});
+
+```
+
+Coffee Script example
 --------------
 Fetching a product info:
 ```
