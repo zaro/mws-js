@@ -225,9 +225,45 @@ class FeedsClient extends mws.Client
       # TODO: test and parse
       if typeof cb is 'function' then cb res
 
+class XMLFeeds
+	constructor: (@merchantID)->
+		@builder = require('xmlbuilder')
+
+	# generate XML for the Order Fulfillment feed
+	orderFulfillment: (orders)->
+		xml = @builder.create('AmazonEnvelope')
+		xml.att('xmlns:xsi',"http://www.w3.org/2001/XMLSchema-instance")
+		xml.att('xsi:noNamespaceSchemaLocation',"amzn-envelope.xsd")
+		head = xml.e('Header')
+		head.e('DocumentVersion','1.01')
+		head.e('MerchantIdentifier',@merchantID)
+		xml.e('MessageType','OrderFulfillment')
+		cnt = 1
+		for o in orders
+			m = xml.e('Message')
+			m.e('MessageID','' + cnt++)
+			f = m.e('OrderFulfillment')
+			for a in ['AmazonOrderID','MerchantOrderID','MerchantFulfillmentID']
+				f.e(a,o[a]) if o[a]
+			if o.FulfillmentDate
+				f.e('FulfillmentDate',o.FulfillmentDate)
+			else
+				f.e('FulfillmentDate',new Date().toISOString())
+			if o.FulfillmentData
+				fd = f.e('FulfillmentData',o.FulfillmentData)
+				for a in ['CarrierCode','CarrierName','ShippingMethod','ShipperTrackingNumber']
+					fd.e(a,o.FulfillmentData[a]) if o.FulfillmentData[a]
+			items = if Array.isArray(o.Item) then o.Item else [ o.Item ]
+			for i in items
+				it = f.e('Item')
+				for a in ['AmazonOrderItemCode','MerchantOrderItemID','MerchantFulfillmentItemID','Quantity']
+					it.e(a,i[a]) if i[a]
+		return xml.end({ pretty: true})
+				
 module.exports = 
   service: MWS_FEEDS
   enums: enums
   types: types
   requests: requests
   Client: FeedsClient
+  XMLFeeds: XMLFeeds

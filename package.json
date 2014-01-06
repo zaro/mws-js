@@ -1,20 +1,29 @@
 {
-  "name" : "mws-js",
-  "description" : "Amazon Marketplace Web Services client with support for all api calls.",
-  "keywords" : ["mws", "amazon", "marketplace"],
-  "homepage" : "_",
-  "version" : "0.1.1",
-  "author" : "Eibbor Srenduas <r@eibbors.com> (http://eibbors,com)",
-  "contributors" : [ ],
-  "main" : "./lib/mws",
-  "directories" : {
+  "name": "mws-js",
+  "description": "Amazon Marketplace Web Services client with support for all api calls.",
+  "keywords": [
+    "mws",
+    "amazon",
+    "marketplace"
+  ],
+  "homepage": "_",
+  "version": "0.1.1",
+  "author": "Eibbor Srenduas <r@eibbors.com> (http://eibbors,com)",
+  "contributors": [],
+  "main": "./lib/mws",
+  "directories": {
     "lib": "./lib"
   },
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/eibbors/mws-js.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eibbors/mws-js.git"
   },
-  "dependencies" : {
-    "xml2js" : "=0.1.13"
+  "dependencies": {
+    "xml2js": "=0.1.13",
+    "xmlbuilder": ""
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-browserify": "~0.2.3"
   }
 }
