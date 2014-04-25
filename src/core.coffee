@@ -120,8 +120,6 @@ class MWSClient extends EventEmitter
     # Calculate MD5 / Attach options.body as appropriate
     if request?.body then request.md5Calc()
     if options?.body then request.attach options.body, 'text'
-    # Load request path + sign query
-    options.pathname ?= request.service?.path ? '/'
     q = @sign(options.service ? request.service ? null, request.query(options.query ? {}))
     # Load request headers
     options.headers ?= {}
@@ -140,16 +138,17 @@ class MWSClient extends EventEmitter
     if @appPlatform then agentParams.push "Platform=#{@appPlatform}"    
     options.headers['user-agent'] = "#{@appName}/#{@appVersion} (#{agentParams.join('; ')})"
     options.headers['content-length'] = options.body.length
-    # http(s) request options completes the request options
-    options.host ?= @host
-    options.port ?= @port
-    options.method ?= 'POST'
-    options.protocol ?= 'https:'
-    options.uri = url.format(options)
-    options.proxy = @proxy
-    options.strictSSL = @strictSSL
     # Instantiate an http(s) request
-    req = HTTPSRequest options, (error, response, body)=>
+    reqOptions = {
+				method : 'POST',
+				uri : url.format({host:@host, port:@port, protocol: 'https:', pathname :  request.service?.path ? '/'}),
+				headers: options.headers,
+				body : options.body
+				proxy : @proxy,
+				strictSSL : @strictSSL,
+				encoding : null,
+    }
+    req = HTTPSRequest reqOptions, (error, response, body)=>
       if error
         @emit 'error', error
         cb error, null, body
