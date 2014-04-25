@@ -8,7 +8,8 @@
 # ----------------------------------------------------------
 
 {EventEmitter} = require "events"
-https = require "https"
+HTTPSRequest = require "request"
+url = require('url')
 qs = require "querystring"
 crypto = require "crypto"
 xml2js = require 'xml2js'
@@ -71,7 +72,7 @@ class MWSClient extends EventEmitter
       @host = options.host ? (options.locale.host ? "mws.amazonservices.com")
       @marketplaceId = options.locale.marketplaceId
       @country = options.locale.country ? undefined
-      @domain = options.locale.domain ? undefined
+      @amazonDomain = options.locale.amazonDomain ? undefined
     # Connection settings
     @host = @host ? (options.host ? "mws.amazonservices.com")
     @port = options.port ? 443
@@ -87,6 +88,8 @@ class MWSClient extends EventEmitter
     @appLanguage = options.appLanguage or "JavaScript"
     @appHost = options.appHost ? undefined
     @appPlatform = options.appPlatform ? undefined
+    @proxy = options.proxy ? undefined
+    @strictSSL = options.strictSSL ? true
     options
 
   # Used to sign
@@ -118,7 +121,7 @@ class MWSClient extends EventEmitter
     if request?.body then request.md5Calc()
     if options?.body then request.attach options.body, 'text'
     # Load request path + sign query
-    options.path ?= request.service?.path ? '/'
+    options.pathname ?= request.service?.path ? '/'
     q = @sign(options.service ? request.service ? null, request.query(options.query ? {}))
     # Load request headers
     options.headers ?= {}
@@ -141,39 +144,37 @@ class MWSClient extends EventEmitter
     options.host ?= @host
     options.port ?= @port
     options.method ?= 'POST'
+    options.protocol ?= 'https:'
+    options.uri = url.format(options)
+    options.proxy = @proxy
+    options.strictSSL = @strictSSL
     # Instantiate an http(s) request
-    req = https.request options, (res) =>
-      # Join chunked data until EOF reached, then parse or pass error
-      data = []
-      res.on 'data', (chunk) =>
-        data.push( chunk )
-      res.on 'end', =>
-        data = Buffer.concat(data)
-        mwsres = new MWSResponse res, data, options
-        mwsres.parseHeaders()
-        mwsres.parseBody (err, parsed) =>
-          if options.nextTokenCall? and (mwsres.result?.NextToken?.length > 0)
-            invokeOpts = { nextTokenCall : options.nextTokenCall }
-            # on calls that use HasNext parameter, set nextToken only if HasNext is 'true'
-            if options.nextTokenCallUseHasNext
-              invokeOpts.nextTokenCallUseHasNext = options.nextTokenCallUseHasNext
-              mwsres.nextToken = mwsres.result.NextToken if mwsres.result?.HasNext is 'true'
-            else
-              mwsres.nextToken = mwsres.result.NextToken
-            nextRequest = new options.nextTokenCall(NextToken: mwsres.nextToken)
-            mwsres.getNext = ()=>
-              opts = {}
-              for k,v of invokeOpts
-                opts[k] = v
-              @invoke nextRequest, opts, cb
-          @emit 'response', mwsres, parsed
-          cb mwsres
-      res.on 'error', (err) =>
-        @emit 'error', err
-        cb err, null, Buffer.concat(data).toString()
+    req = HTTPSRequest options, (error, response, body)=>
+      if error
+        @emit 'error', error
+        cb error, null, body
+        return
+      mwsres = new MWSResponse response, body, options
+      mwsres.parseHeaders()
+      mwsres.parseBody (err, parsed) =>
+        if options.nextTokenCall? and (mwsres.result?.NextToken?.length > 0)
+          invokeOpts = { nextTokenCall : options.nextTokenCall }
+          # on calls that use HasNext parameter, set nextToken only if HasNext is 'true'
+          if options.nextTokenCallUseHasNext
+            invokeOpts.nextTokenCallUseHasNext = options.nextTokenCallUseHasNext
+            mwsres.nextToken = mwsres.result.NextToken if mwsres.result?.HasNext is 'true'
+          else
+            mwsres.nextToken = mwsres.result.NextToken
+          nextRequest = new options.nextTokenCall(NextToken: mwsres.nextToken)
+          mwsres.getNext = ()=>
+            opts = {}
+            for k,v of invokeOpts
+              opts[k] = v
+            @invoke nextRequest, opts, cb
+        @emit 'response', mwsres, parsed
+        cb mwsres
     @emit 'request', req, options
-    req.write options.body
-    req.end()
+
 
 # Basic Service definition 
 class MWSService
