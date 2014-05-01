@@ -6,7 +6,7 @@
 
 fs = require 'fs'
 mws = require("./core")
-
+MWS_LOCALES = mws.LOCALES
 
 MWS_FEEDS = new mws.Service
     name: "Feeds"
@@ -142,6 +142,10 @@ requests =
         new mws.ParamList('MarketplaceIdList', 'Id')
         new mws.Bool('PurgeAndReplace')
       ], {}, body ? init?.body ? null, init
+      if @FeedType? in types.FeedTypes.XML
+        @headers['content-type'] = "text/xml"
+      else
+        @headers['content-type'] = "text/tab-separated-values"
 
     # Sync. helper for loading an existing feed from the file ststem
     attachFile: (filename, format, encoding, cb) ->
@@ -215,7 +219,7 @@ class FeedsClient extends mws.Client
 
   # Upload feed data for submission
   submitFeed: (feedType, feedBody, marketplaces, purgeReplace=false, cb) =>
-    req = new requests.GetFeedSubmissionResult
+    req = new requests.SubmitFeed
       FeedType: feedType
       MarketplaceIdList: marketplaces ? @marketplaceIds ? [@marketplaceId]
       PurgeAndReplace: purgeReplace
@@ -226,8 +230,13 @@ class FeedsClient extends mws.Client
       if typeof cb is 'function' then cb res
 
 class XMLFeeds
-	constructor: (@merchantID)->
+	constructor: (options={})->
 		@builder = require('xmlbuilder')
+		@merchantId = options.merchantId ? null
+		if typeof options.locale is 'object'
+			@currency = options.locale.currency
+		else
+			@currency = MWS_LOCALES[options.locale].currency
 
 	# generate XML for the Order Fulfillment feed
 	orderFulfillment: (orders)->
@@ -258,6 +267,27 @@ class XMLFeeds
 				it = f.e('Item')
 				for a in ['AmazonOrderItemCode','MerchantOrderItemID','MerchantFulfillmentItemID','Quantity']
 					it.e(a,i[a]) if i[a]
+		return xml.end({ pretty: true})
+
+	# generate XML for the Pricing feed
+	productPricing: (items)->
+		unless Array.isArray(items)
+			items = [ items ]
+		xml = @builder.create('AmazonEnvelope')
+		xml.att('xmlns:xsi',"http://www.w3.org/2001/XMLSchema-instance")
+		xml.att('xsi:noNamespaceSchemaLocation',"amzn-envelope.xsd")
+		head = xml.e('Header')
+		head.e('DocumentVersion','1.01')
+		head.e('MerchantIdentifier',@merchantId)
+		xml.e('MessageType','Price')
+		cnt = 1
+		for item in items
+			m = xml.e('Message')
+			m.e('MessageID','' + cnt++)
+			f = m.e('Price')
+			f.e('SKU',item['SKU']) if item['SKU']
+			for a in ['StandardPrice','MAP']
+				f.e(a,{currency: item['Currency'] ? @currency},item[a]) if item[a]
 		return xml.end({ pretty: true})
 				
 module.exports = 

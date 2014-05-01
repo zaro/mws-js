@@ -40,15 +40,15 @@ MWS_MARKETPLACES =
 
 # I'm piecing these together from various sources, if you can help, please let me know!
 MWS_LOCALES =
-  US: { host: "mws.amazonservices.com", country: 'UnitedStates',  domain: 'www.amazon.com',   marketplaceId: MWS_MARKETPLACES.US }
-  UK: { host: "mws.amazonservices.co",  country: 'UnitedKingdom', domain: 'www.amazon.co.uk', marketplaceId: MWS_MARKETPLACES.UK }
-  FR: { host: "mws.amazonservices.fr",  country: 'France',        domain: 'www.amazon.fr',    marketplaceId: MWS_MARKETPLACES.FR }
-  DE: { host: "mws.amazonservices.de",  country: 'Germany',       domain: 'www.amazon.de',    marketplaceId: MWS_MARKETPLACES.DE }
-  IT: { host: "mws.amazonservices.it",  country: 'Italy',         domain: 'www.amazon.it',    marketplaceId: MWS_MARKETPLACES.IT }
-  ES: { host: "mws.amazonservices.es",  country: 'Spain',         domain: 'www.amazon.es',    marketplaceId: MWS_MARKETPLACES.ES }
-  CA: { host: "mws.amazonservices.ca",  country: 'Canada',        domain: 'www.amazon.ca',    marketplaceId: MWS_MARKETPLACES.CA }
-  CN: { host: "mws.amazonservices.cn",  country: 'China',         domain: 'www.amazon.cn',    marketplaceId: MWS_MARKETPLACES.CN }
-  JP: { host: "mws.amazonservices.jp",  country: 'Japan',         domain: 'www.amazon.jp',    marketplaceId: MWS_MARKETPLACES.JP }
+  US: { host: "mws.amazonservices.com", country: 'UnitedStates',  currency: 'USD', domain: 'www.amazon.com',   marketplaceId: MWS_MARKETPLACES.US, charset: 'iso-8859-1' }
+  UK: { host: "mws.amazonservices.co",  country: 'UnitedKingdom', currency: 'GBP', domain: 'www.amazon.co.uk', marketplaceId: MWS_MARKETPLACES.UK, charset: 'iso-8859-1' }
+  FR: { host: "mws.amazonservices.fr",  country: 'France',        currency: 'EUR', domain: 'www.amazon.fr',    marketplaceId: MWS_MARKETPLACES.FR, charset: 'iso-8859-1' }
+  DE: { host: "mws.amazonservices.de",  country: 'Germany',       currency: 'EUR', domain: 'www.amazon.de',    marketplaceId: MWS_MARKETPLACES.DE, charset: 'iso-8859-1' }
+  IT: { host: "mws.amazonservices.it",  country: 'Italy',         currency: 'EUR', domain: 'www.amazon.it',    marketplaceId: MWS_MARKETPLACES.IT, charset: 'iso-8859-1' }
+  ES: { host: "mws.amazonservices.es",  country: 'Spain',         currency: 'EUR', domain: 'www.amazon.es',    marketplaceId: MWS_MARKETPLACES.ES, charset: 'iso-8859-1' }
+  CA: { host: "mws.amazonservices.ca",  country: 'Canada',        currency: 'CAD', domain: 'www.amazon.ca',    marketplaceId: MWS_MARKETPLACES.CA, charset: 'iso-8859-1' }
+  CN: { host: "mws.amazonservices.cn",  country: 'China',         currency: 'CNY', domain: 'www.amazon.cn',    marketplaceId: MWS_MARKETPLACES.CN, charset: 'UTF-8' }
+  JP: { host: "mws.amazonservices.jp",  country: 'Japan',         currency: 'JPY', domain: 'www.amazon.jp',    marketplaceId: MWS_MARKETPLACES.JP, charset: 'Shift_JIS' }
     
 # Core and common type definitions -- likely to be moved to a seperate file after
 # the Feeds generation module is working, as there's a buttload of them
@@ -73,6 +73,7 @@ class MWSClient extends EventEmitter
       @marketplaceId = options.locale.marketplaceId
       @country = options.locale.country ? undefined
       @amazonDomain = options.locale.amazonDomain ? undefined
+      @charset = options.locale.charset ? 'UTF-8'      
     # Connection settings
     @host = @host ? (options.host ? "mws.amazonservices.com")
     @port = options.port ? 443
@@ -127,7 +128,10 @@ class MWSClient extends EventEmitter
     # Take care of body, whether explicitly defined or defaulting to query
     if request.body or options.body
       options.body ?= request.body
-      options.path = "#{options.path}?#{qs.stringify(q)}"
+      options.path ?= '/'
+      options.qs = qs.stringify(q)
+      unless options.headers['content-type'].match(';charset')
+      	options.headers['content-type'] += ';charset=' + @charset
     else
       options.body = qs.stringify(q)
       options.headers['content-type'] = 'application/x-www-form-urlencoded; charset=utf-8'
@@ -141,7 +145,11 @@ class MWSClient extends EventEmitter
     # Instantiate an http(s) request
     reqOptions = {
 				method : 'POST',
-				uri : url.format({host:@host, port:@port, protocol: 'https:', pathname :  request.service?.path ? '/'}),
+				uri : url.format({	
+								host:@host, port:@port,
+								protocol: 'https:',
+								pathname :  (options.path ? request.service?.path ) ? '/',
+								search: options.qs ? ''}),
 				headers: options.headers,
 				body : options.body
 				proxy : @proxy,
