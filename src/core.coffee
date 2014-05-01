@@ -249,10 +249,11 @@ class MWSResponse
   # Handle xml2js conversion as well as any report formats later on
   parseBody: (cb) ->
     isXml = false
-    if @headers['content-type'] is 'text/xml'
+    contentType = @headers['content-type'] ? 'text/plain'
+    if contentType.indexOf('text/xml') == 0
       @body = @body.toString()
       isXml = true
-    if @headers['content-type'] is 'text/plain'
+    if contentType.indexOf('text/plain') == 0
       @body = @body.toString()
       isXml = @body.indexOf('<?xml') == 0
     if isXml
