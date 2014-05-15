@@ -129,7 +129,17 @@ reportTypes =
     group: 'Performance'
     format: 'flat'
     request: true
-
+  # Settlement reports
+  '_GET_FLAT_FILE_PAYMENT_SETTLEMENT_DATA_':
+    title: 'Flat File Settlement Report'
+    group: 'Settlement'
+    format: 'flat'
+    request: false
+  '_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_':
+    title: 'Flat File Settlement Report'
+    group: 'Settlement'
+    format: 'flat'
+    request: false
 ###
 Ojects to represent enum collections used by some request(s)
 @type {Object}
@@ -159,7 +169,7 @@ enums =
 
   ReportTypeList: class extends mws.EnumList
     constructor: ->
-      reportTypesList = ( k for k,v of reportTypes when v.schedule )
+      reportTypesList = ( k for k,v of reportTypes)
       super("ReportTypeList", "Type", reportTypesList, false)
 
 ###
@@ -340,7 +350,7 @@ class ReportsClient extends mws.Client
   # Callback function should be (report, res) ->
   getReport: (options, cb)->
     req = new requests.GetReport options
-    @invoke  req, { allowedContentTypes: [ 'application/octet-stream' ] }, (res) =>
+    @invoke  req, { allowedContentTypes: [ 'application/octet-stream' , 'text', 'text/plain'] }, (res) =>
       report = res.response
       cb report, res
 

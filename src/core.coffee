@@ -262,8 +262,10 @@ class MWSResponse
       @body = @body.toString()
       isXml = true
     if contentType.indexOf('text/plain') == 0
-      @body = @body.toString()
-      isXml = @body.indexOf('<?xml') == 0
+      bodyAsStr = @body.toString()
+      isXml = bodyAsStr.indexOf('<?xml') == 0
+      if isXml
+        @body = bodyAsStr
     if isXml
       parser = new xml2js.Parser { explicitRoot: true, normalize: false, trim: false }
       parser.parseString @body, (err, res) =>
@@ -442,6 +444,15 @@ class MWSEnumList extends MWSParamList
     @members[value] = enabled
     @value[value] = enabled
     this
+
+  set: (values) ->
+    @value = {}
+    unless Array.isArray values then values = [values]
+    for val in values
+      if val in @members
+        @value[val] = true
+      else
+        throw "Invalid enumeration value, '#{val}', must be a member or index of #{@members}"
 
   get: ->
     list = {}
