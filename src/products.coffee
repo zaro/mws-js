@@ -97,6 +97,7 @@ requests =
         new mws.Param('MarketplaceId', 'Id', true),
         new mws.ParamList('SellerSKUList', 'SellerSKU', true),
         new enums.ItemCondition('ItemCondition'),
+        new mws.Bool('ExcludeMe', false, false),
       ], {}, null, init
 
   # Same as above but by a list of ASIN's you provide
@@ -195,11 +196,13 @@ class ProductsClient extends mws.Client
     @invoke req, {}, (res) =>
       cb res
 
-  getLowestOfferListingsForSKU: (skus, condition, cb) ->
+  getLowestOfferListingsForSKU: (skus, condition, excludeMe, cb) ->
     req = new requests.GetLowestOfferListingsForSKU
       MarketplaceId:  @marketplaceId
       SellerSKUList: skus ? []
       ItemCondition: condition ? undefined
+      ExcludeMe: excludeMe ? false
+   	console.log req
     @invoke req, {}, (res) =>
       cb res
 

@@ -109,10 +109,12 @@ class MWSClient extends EventEmitter
     (sorted[k] = q[k] for k in keys) 
     stringToSign = "POST\n#{@host}\n#{path}\n#{qs.stringify(sorted)}"
     # Encode a few possible problem characters
-    stringToSign = stringToSign.replace( /'/g, '%27')
+    stringToSign = stringToSign.replace(/'/g,  '%27')
     stringToSign = stringToSign.replace(/\*/g, '%2A')
     stringToSign = stringToSign.replace(/\(/g, '%28')
     stringToSign = stringToSign.replace(/\)/g, '%29')
+    #console.warn "PARAMS:", sorted
+    #console.warn "SIGNING:", stringToSign
     # Finally we generate and append our signature parameter
     q['Signature'] = hash.update(stringToSign).digest('base64')
     q
@@ -379,7 +381,7 @@ class MWSParamList extends MWSParam
     else
       for i in index
         throw "ERROR: INVALID INDEX #{i}" unless @value[i]?
-        list["#{@name}.#{@type}.#{++count}"] = @value[i] 
+        list["#{@name}.#{@type}.#{++count}"] = @value[i]
     list
 
   set: (val) ->
