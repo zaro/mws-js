@@ -135,7 +135,7 @@ reportTypes =
     group: 'Settlement'
     format: 'flat'
     request: false
-  '_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_':
+  '_GET_ALT_FLAT_FILE_PAYMENT_SETTLEMENT_DATA_':
     title: 'Flat File Settlement Report'
     group: 'Settlement'
     format: 'flat'
