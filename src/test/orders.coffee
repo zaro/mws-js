@@ -1,4 +1,4 @@
-orders = require '../src/orders'
+orders = require '../lib/orders'
 { loginInfo, dump, print } = require './cfg'
 
 client = new orders.Client(loginInfo)
@@ -7,7 +7,7 @@ client = new orders.Client(loginInfo)
 # the event system.
 # client.on 'request', dump
 # client.on 'response', dump
-# client.on 'error', console.log 
+# client.on 'error', console.log
 
 # Start out by checking the orders service status
 client.getServiceStatus (status, res) =>
@@ -19,7 +19,7 @@ client.getServiceStatus (status, res) =>
   # List orders created after 10-01-2011 which will almost definitely return more than
   # the max number per request. Change this to an older date, if not
   client.listOrders { CreatedAfter: '10-01-2011' }, (orders, res) =>
-    if orders 
+    if orders
       if Array.isArray(orders)
         order = orders[0]
         size = orders.length
@@ -27,9 +27,9 @@ client.getServiceStatus (status, res) =>
         order = orders
         size = 1
       print "First order of #{size} returned", order
-    else 
+    else
       print "Invalid or empty ListOrders response", res
-    
+
     # Sample of requesting more results using NextToken
     if res.nextToken?
       print "Requesting additional orders using formal NextToken request", res.nextToken
@@ -40,7 +40,7 @@ client.getServiceStatus (status, res) =>
         else print "NextToken response with no orders", res
 
         # You can also call getNext on any response with NextToken support
-        if res.nextToken? 
+        if res.nextToken?
           res.getNext (orders, res) =>
             "Retrieved #{orders.length ? 1} order(s)"
 
@@ -48,7 +48,7 @@ client.getServiceStatus (status, res) =>
     client.getOrder order.AmazonOrderId, (o, res) =>
       print "Order returned by GetOrder", o
       print "Matches order from before", order.AmazonOrderId is o.AmazonOrderId
-    
+
     # Demonstrate the listing of single order's item details
     client.listOrderItems orders[5].AmazonOrderId, (items, res) =>
       print "Order items for #{orders[5].AmazonOrderId} (fifth result from before)", items

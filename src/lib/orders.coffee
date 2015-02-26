@@ -17,21 +17,21 @@ MWS_ORDERS = new mws.Service
   legacy: false
 
 # Enumeration param definitions
-enums = 
+enums =
   # Order statuses with a little extra verification to help avoid errors
   OrderStatus: class extends mws.EnumList
     constructor: ->
       super('OrderStatus', 'Status', ["Pending", "Unshipped", "PartiallyShipped", "Shipped", "Canceled", "Unfulfillable"])
-    
+
     render: (obj={}) ->
       if @value.Unshipped isnt @value.PartiallyShipped
         throw "Unshipped & PartiallyShipped must both be enabled on the OrderStatus Param"
       super(obj)
-        
+
   FulfillmentChannel: class extends mws.EnumList
     constructor: ->
       super('FulfillmentChannel', 'Channel', ['AFN', 'MFN'])
-    
+
   PaymentMethod: class extends mws.EnumList
     constructor: ->
       super('PaymentMethod', 'Method', ['COD', 'CVS', 'Other'])
@@ -64,7 +64,7 @@ types =
     Standard: "Standard shipping"
 
 # Order Retrieval Request Classes
-requests = 
+requests =
 
   GetServiceStatus: class extends mws.Request
     constructor: (init) ->
@@ -83,7 +83,7 @@ requests =
         new enums.PaymentMethod(),
         new mws.Param('BuyerEmail'),
         new mws.Param('SellerOrderId'),
-        new mws.Param('MaxResultsPerPage') 
+        new mws.Param('MaxResultsPerPage')
       ], {}, null, init
 
   ListOrdersByNextToken: class extends mws.Request
@@ -94,11 +94,11 @@ requests =
 
   GetOrder: class extends mws.Request
     constructor: (init) ->
-      super MWS_ORDERS, 'GetOrder', [ 
+      super MWS_ORDERS, 'GetOrder', [
         new mws.ParamList('AmazonOrderId', 'Id', true)
-      ], {}, null, init 
+      ], {}, null, init
 
-  ListOrderItems: class extends mws.Request 
+  ListOrderItems: class extends mws.Request
     constructor: (init) ->
       super MWS_ORDERS, 'ListOrderItems', [
         new mws.Param('AmazonOrderId', true)
@@ -123,17 +123,17 @@ class OrdersClient extends mws.Client
       status = res.result?.Status ? null
       cb status, res
 
-  # List the orders matching a set of criteria. 
-  # See the ListOrders request above for a complete list of 
+  # List the orders matching a set of criteria.
+  # See the ListOrders request above for a complete list of
   # properties available for filtering the results.
   listOrders: (options, cb) ->
     if options.CreatedAfter? or options.LastUpdatedAfter?
       options.MarketplaceId ?= @marketplaceIds ? @marketplaceId
-      req = new requests.ListOrders options 
+      req = new requests.ListOrders options
       @invoke req, { nextTokenCall: requests.ListOrdersByNextToken }, (res) =>
         orders = res.result?.Orders?.Order ? null
         cb orders, res
-    else 
+    else
       throw 'Special Case: requires AT LEAST ONE OF either CreatedAfter or LastUpdatedAfter timestamps be used!'
 
   # If your query returned more than one page of results, you
@@ -166,7 +166,7 @@ class OrdersClient extends mws.Client
       items = res.result?.OrderItems?.OrderItem ? null
       cb items, res
 
-module.exports = 
+module.exports =
   service: MWS_ORDERS
   enums: enums
   requests: requests

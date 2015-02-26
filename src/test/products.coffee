@@ -1,4 +1,5 @@
-products = require '../src/products'
+products = require '../lib/products'
+util = require 'util'
 { loginInfo, dump, print } = require './cfg'
 
 client = new products.Client(loginInfo)
@@ -10,10 +11,9 @@ client.getServiceStatus (status, res) =>
 	# Quick verification of optimum service status
 	unless status in ['GREEN', 'GREEN_I']
 		throw 'Products service is having issues, aborting...'
-		
+
 	client.getMatchingProductForId 'ASIN', 'B00BY7IZQE' , (res) =>
 		if res.error
 			console.error res.error
 		else if res.result
 			console.log util.inspect(res.result,false,10)
-		

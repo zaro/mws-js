@@ -1,4 +1,4 @@
-reports= require '../src/reports'
+reports= require '../lib/reports'
 # { locales } = require '../src/core'
 { loginInfo, dump, print } = require './cfg'
 fs = require 'fs'
@@ -26,19 +26,19 @@ client.getReportList {}, (reportInfoList,res)->
 
 
 #
-# Some example calls 
+# Some example calls
 #
 # #Get report count
 # client.getReportCount {}, (count, res)->
 # 	console.log "Count :" + count
-	
+
 # # List all reports 4 result per call , uses NextToken
 # client.getReportList {MaxCount : 4}, (reportInfo,res)->
 # 	console.log "===================================="
 # 	console.log reportInfo
 # 	if res.nextToken?
 # 		res.getNext()
-		
+
 # # List all reports Schedules
 # client.getReportScheduleList {}, (reportSchedule,res)->
 # 	console.log "===================================="

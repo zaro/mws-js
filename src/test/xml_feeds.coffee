@@ -1,4 +1,4 @@
-feeds = require '../src/feeds'
+feeds = require '../lib/feeds'
 
 xf = new feeds.XMLFeeds('ASD')
 

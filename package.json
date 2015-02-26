@@ -6,11 +6,10 @@
     "amazon",
     "marketplace"
   ],
-  "homepage": "_",
   "version": "0.1.1",
   "author": "Eibbor Srenduas <r@eibbors.com> (http://eibbors,com)",
   "contributors": [],
-  "main": "./lib/mws",
+  "main": "./dist/",
   "directories": {
     "lib": "./lib"
   },
@@ -19,13 +18,17 @@
     "url": "https://github.com/eibbors/mws-js.git"
   },
   "dependencies": {
-    "xml2js": "=0.1.13",
-    "xmlbuilder": "",
-    "request" : "",
-    "iconv-lite" : ""
+    "iconv-lite" : "",
+    "xml2js": "0.1.13",
+    "xmlbuilder": "2.6.1",
+    "request": "2.53.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-browserify": "~0.2.3"
+    "grunt": "0.4.5",
+    "grunt-contrib-coffee": "0.13.0",
+    "load-grunt-tasks": "3.1.0",
+    "grunt-contrib-clean": "0.6.0",
+    "grunt-contrib-watch": "0.6.1",
+    "grunt-contrib-copy": "0.8.0"
   }
 }

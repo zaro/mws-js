@@ -1,4 +1,4 @@
-sellers = require '../src/sellers'
+sellers = require '../lib/sellers'
 { loginInfo, dump, print } = require './cfg'
 
 client = new sellers.Client(loginInfo)
@@ -11,7 +11,7 @@ client.getServiceStatus (status, res) =>
 	# Quick verification of optimum service status
 	unless status in ['GREEN', 'GREEN_I']
 		throw 'Seller service is having issues, aborting...'
-		
+
 	client.listMarketplaceParticipations (goodies, res) =>
 			print "The good stuff", goodies
-			dump res 
+			dump res
