@@ -202,7 +202,6 @@ class ProductsClient extends mws.Client
       SellerSKUList: skus ? []
       ItemCondition: condition ? undefined
       ExcludeMe: excludeMe ? false
-   	console.log req
     @invoke req, {}, (res) =>
       cb res
 
