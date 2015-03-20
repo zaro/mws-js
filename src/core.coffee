@@ -2,7 +2,7 @@
 #  mws-js • core.coffee • by robbie saunders [eibbors.com]
 # ----------------------------------------------------------
 # Core classes and types required for communication with Amazon's
-# MWS services. This mainly includes https client + request + 
+# MWS services. This mainly includes https client + request +
 # response wrappers with helpers galore and the param schema +
 # model classes used to declare services in submodules.
 # ----------------------------------------------------------
@@ -19,8 +19,8 @@ MWS_SIGNATURE_METHOD = 'HmacSHA256'
 MWS_SIGNATURE_VERSION = 2
 
 # Constant marketplaceIds are annoying to keep track of so I put them here
-MWS_MARKETPLACES = 
-  # allow translation to country code 
+MWS_MARKETPLACES =
+  # allow translation to country code
   ATVPDKIKX0DER: 'US'
   A1F83G8C2ARO7P: 'UK'
   A13V1IB3VIYZZH: 'FR'
@@ -49,10 +49,10 @@ MWS_LOCALES =
   CA: { host: "mws.amazonservices.ca",  country: 'Canada',        currency: 'CAD', domain: 'www.amazon.ca',    marketplaceId: MWS_MARKETPLACES.CA, charset: 'iso-8859-1' }
   CN: { host: "mws.amazonservices.cn",  country: 'China',         currency: 'CNY', domain: 'www.amazon.cn',    marketplaceId: MWS_MARKETPLACES.CN, charset: 'UTF-8' }
   JP: { host: "mws.amazonservices.jp",  country: 'Japan',         currency: 'JPY', domain: 'www.amazon.jp',    marketplaceId: MWS_MARKETPLACES.JP, charset: 'Shift_JIS' }
-    
+
 # Core and common type definitions -- likely to be moved to a seperate file after
 # the Feeds generation module is working, as there's a buttload of them
-types = 
+types =
   ServiceStatus:
     GREEN: "The service is operating normally."
     GREEN_I: "The service is operating normally + additional info provided"
@@ -64,7 +64,7 @@ class MWSClient extends EventEmitter
 
   constructor: (options = {}, extras...) ->
     for e in extras when typeof e is 'object'
-      (options[k] = v) for k,v of e 
+      (options[k] = v) for k,v of e
     # Load the settings if they pass in one of the MWS_LOCALES or their own
     if options.locale?
       unless typeof options.locale is 'object'
@@ -73,7 +73,7 @@ class MWSClient extends EventEmitter
       @marketplaceId = options.locale.marketplaceId
       @country = options.locale.country ? undefined
       @amazonDomain = options.locale.amazonDomain ? undefined
-      @charset = options.locale.charset ? 'UTF-8'      
+      @charset = options.locale.charset ? 'UTF-8'
     # Connection settings
     @host = @host ? (options.host ? "mws.amazonservices.com")
     @port = options.port ? 443
@@ -106,7 +106,7 @@ class MWSClient extends EventEmitter
     # Sort the nearly complete query string
     sorted = {}
     keys = (k for k,v of q).sort()
-    (sorted[k] = q[k] for k in keys) 
+    (sorted[k] = q[k] for k in keys)
     stringToSign = "POST\n#{@host}\n#{path}\n#{qs.stringify(sorted)}"
     # Encode a few possible problem characters
     stringToSign = stringToSign.replace(/'/g,  '%27')
@@ -141,13 +141,13 @@ class MWSClient extends EventEmitter
     options.headers['host'] = @host
     agentParams = ["Language=#{@appLanguage}"]
     if @appHost then agentParams.push "Host=#{@appHost}"
-    if @appPlatform then agentParams.push "Platform=#{@appPlatform}"    
+    if @appPlatform then agentParams.push "Platform=#{@appPlatform}"
     options.headers['user-agent'] = "#{@appName}/#{@appVersion} (#{agentParams.join('; ')})"
     options.headers['content-length'] = options.body.length
     # Instantiate an http(s) request
     reqOptions = {
 				method : 'POST',
-				uri : url.format({	
+				uri : url.format({
 								host:@host, port:@port,
 								protocol: 'https:',
 								pathname :  (options.path ? request.service?.path ) ? '/',
@@ -185,13 +185,13 @@ class MWSClient extends EventEmitter
     @emit 'request', req, options
 
 
-# Basic Service definition 
+# Basic Service definition
 class MWSService
 
   constructor: (options) ->
     (@[k] = v) for k,v of options
     @name ?= null
-    @path ?= '/' 
+    @path ?= '/'
     @version ?= '2009-01-01'
     @legacy ?= false
 
@@ -221,7 +221,7 @@ class MWSRequest
     else
       if @[param]?.set?
         @[param].set(value ? null)
-      else 
+      else
         throw "#{param} is not a valid parameter for this request type"
 
   attach: (body, format) ->
@@ -286,7 +286,7 @@ class MWSResponse
                 @result = v["#{@responseType}Result"]
                 # if @result.NextToken? then @nextToken = @result.NextToken
               if v.ResponseMetadata? then @meta.response = v.ResponseMetadata
-          cb err, res 
+          cb err, res
     else if @headers['content-type'] in @allowedContentTypes
       md5 = crypto.createHash('md5').update(@body).digest("base64")
       if @headers['content-md5'] == md5
@@ -294,7 +294,7 @@ class MWSResponse
         cb null, @body
       else
         @responseType = 'Error'
-        @error = 
+        @error =
           Type: {},
           Code: 'Client_WrongMD5',
           Message: "Invalid MD5 on received content: amazon=#{ @headers['content-md5']} , calculated=#{ md5 }"
@@ -303,7 +303,7 @@ class MWSResponse
         cb @error, null
     else
       @responseType = 'Error'
-      @error = 
+      @error =
         Type: {},
         Code: 'Client_UknownContent',
         Message: "Unrecognized content format: #{@headers['content-type'] ? 'undefined'}"
@@ -352,7 +352,7 @@ class MWSTimestamp extends MWSParam
         @value = new Date(val)
       catch e
         @value = val
-    else 
+    else
       @value = val
     this
 
@@ -362,7 +362,7 @@ class MWSParamList extends MWSParam
     @list = true
 
   render: (obj={}) ->
-    if @value.length < 1 and @required 
+    if @value.length < 1 and @required
       throw "Required parameter list, #{@name} is empty!"
     for k,v of @get()
       obj[k] = v
@@ -370,8 +370,8 @@ class MWSParamList extends MWSParam
 
   clear: -> @value = []
 
-  add: (vals...) -> @value = @value.concat vals 
-  
+  add: (vals...) -> @value = @value.concat vals
+
   get: (index...) ->
     list = {}
     count = 0
@@ -389,10 +389,10 @@ class MWSParamList extends MWSParam
     else @value = [val]
 
 
-class MWSEnum extends MWSParam 
+class MWSEnum extends MWSParam
   constructor: (@name, @members=[], @required=false, value) ->
     @value = null
-    if value? then @set value 
+    if value? then @set value
 
   set: (val) ->
     if val in @members
@@ -402,19 +402,19 @@ class MWSEnum extends MWSParam
     else
       throw "Invalid enumeration value, '#{val}', must be a member or index of #{@members}"
 
-# Model for enum params that accept 
-# Is used for enum fields that support multiple values. In other words, 
+# Model for enum params that accept
+# Is used for enum fields that support multiple values. In other words,
 class MWSEnumList extends MWSParamList
 
   constructor: (@name, @type, @members, @required=false, initValue) ->
-    @list = true 
+    @list = true
     @value = {}
     for m in @members
       @value[m] = initValue ? false
 
   render: (obj={}) ->
     onset = @get()
-    if onset.length < 1 and @required 
+    if onset.length < 1 and @required
       throw "Required paremeter list (enum), #{@name} is empty!"
     for k,v of onset
       obj[k] = v
@@ -438,7 +438,7 @@ class MWSEnumList extends MWSParamList
   # Enables all members
   all: -> @enable @members
 
-  # Toggles every                    
+  # Toggles every
   invert: -> @toggle @members
 
   # Can be used to override default behavior and add custom enum members
@@ -479,21 +479,21 @@ class MWSComplexParam extends MWSParam
       for k,p of @params
         n = p.name ? k
         v = p.get?() ? p.value
-        if v? 
+        if v?
           obj["#{@name}.#{n}"] = v
         else if p.required
           throw "Missing required parameter #{@name}.#{n}"
       obj
 
     get: (field) ->
-      if field? and @params[field]? 
+      if field? and @params[field]?
         @params[field].get()
-      else if not field? 
+      else if not field?
         obj = {}
         (obj[k] = p) for k,p of @params
       else
         for k,p of @params
-          if p.name is field then return p 
+          if p.name is field then return p
         throw  "There is no field, #{field}, in #{@name}"
 
     set: (field, value) ->
@@ -514,7 +514,7 @@ class MWSComplexList extends MWSParamList
     @list = true
 
   render: (obj={}) ->
-    if @value.length < 1 and @required 
+    if @value.length < 1 and @required
       throw "Required (complex) parameter list, #{@name} is empty!"
     for k,v of @get()
       v.name = k
@@ -522,7 +522,7 @@ class MWSComplexList extends MWSParamList
     obj
 
 # Export all of the juicy goodness!
-module.exports = 
+module.exports =
   # namespaced constants and definitions
   MARKETPLACES: MWS_MARKETPLACES
   LOCALES: MWS_LOCALES
