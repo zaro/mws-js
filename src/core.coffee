@@ -40,15 +40,15 @@ MWS_MARKETPLACES =
 
 # I'm piecing these together from various sources, if you can help, please let me know!
 MWS_LOCALES =
-  US: { host: "mws.amazonservices.com", country: 'UnitedStates',  currency: 'USD', domain: 'www.amazon.com',   marketplaceId: MWS_MARKETPLACES.US, charset: 'iso-8859-1' }
-  UK: { host: "mws.amazonservices.co",  country: 'UnitedKingdom', currency: 'GBP', domain: 'www.amazon.co.uk', marketplaceId: MWS_MARKETPLACES.UK, charset: 'iso-8859-1' }
-  FR: { host: "mws.amazonservices.fr",  country: 'France',        currency: 'EUR', domain: 'www.amazon.fr',    marketplaceId: MWS_MARKETPLACES.FR, charset: 'iso-8859-1' }
-  DE: { host: "mws.amazonservices.de",  country: 'Germany',       currency: 'EUR', domain: 'www.amazon.de',    marketplaceId: MWS_MARKETPLACES.DE, charset: 'iso-8859-1' }
-  IT: { host: "mws.amazonservices.it",  country: 'Italy',         currency: 'EUR', domain: 'www.amazon.it',    marketplaceId: MWS_MARKETPLACES.IT, charset: 'iso-8859-1' }
-  ES: { host: "mws.amazonservices.es",  country: 'Spain',         currency: 'EUR', domain: 'www.amazon.es',    marketplaceId: MWS_MARKETPLACES.ES, charset: 'iso-8859-1' }
-  CA: { host: "mws.amazonservices.ca",  country: 'Canada',        currency: 'CAD', domain: 'www.amazon.ca',    marketplaceId: MWS_MARKETPLACES.CA, charset: 'iso-8859-1' }
-  CN: { host: "mws.amazonservices.cn",  country: 'China',         currency: 'CNY', domain: 'www.amazon.cn',    marketplaceId: MWS_MARKETPLACES.CN, charset: 'UTF-8' }
-  JP: { host: "mws.amazonservices.jp",  country: 'Japan',         currency: 'JPY', domain: 'www.amazon.jp',    marketplaceId: MWS_MARKETPLACES.JP, charset: 'Shift_JIS' }
+  US: { host: "mws.amazonservices.com",    country: 'UnitedStates',  currency: 'USD', domain: 'www.amazon.com',   marketplaceId: MWS_MARKETPLACES.US, charset: 'iso-8859-1' }
+  UK: { host: "mws.amazonservices.co.uk",  country: 'UnitedKingdom', currency: 'GBP', domain: 'www.amazon.co.uk', marketplaceId: MWS_MARKETPLACES.UK, charset: 'iso-8859-1' }
+  FR: { host: "mws.amazonservices.fr",     country: 'France',        currency: 'EUR', domain: 'www.amazon.fr',    marketplaceId: MWS_MARKETPLACES.FR, charset: 'iso-8859-1' }
+  DE: { host: "mws.amazonservices.de",     country: 'Germany',       currency: 'EUR', domain: 'www.amazon.de',    marketplaceId: MWS_MARKETPLACES.DE, charset: 'iso-8859-1' }
+  IT: { host: "mws.amazonservices.it",     country: 'Italy',         currency: 'EUR', domain: 'www.amazon.it',    marketplaceId: MWS_MARKETPLACES.IT, charset: 'iso-8859-1' }
+  ES: { host: "mws.amazonservices.es",     country: 'Spain',         currency: 'EUR', domain: 'www.amazon.es',    marketplaceId: MWS_MARKETPLACES.ES, charset: 'iso-8859-1' }
+  CA: { host: "mws.amazonservices.ca",     country: 'Canada',        currency: 'CAD', domain: 'www.amazon.ca',    marketplaceId: MWS_MARKETPLACES.CA, charset: 'iso-8859-1' }
+  CN: { host: "mws.amazonservices.cn",     country: 'China',         currency: 'CNY', domain: 'www.amazon.cn',    marketplaceId: MWS_MARKETPLACES.CN, charset: 'UTF-8' }
+  JP: { host: "mws.amazonservices.jp",     country: 'Japan',         currency: 'JPY', domain: 'www.amazon.jp',    marketplaceId: MWS_MARKETPLACES.JP, charset: 'Shift_JIS' }
 
 # Core and common type definitions -- likely to be moved to a seperate file after
 # the Feeds generation module is working, as there's a buttload of them
