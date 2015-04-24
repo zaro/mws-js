@@ -24,32 +24,26 @@
       format: 'flat',
       request: true
     },
+    '_GET_MERCHANT_LISTINGS_DATA_': {
+      title: 'Active Listings Report',
+      group: 'Listings',
+      format: 'flat',
+      request: true
+    },
     '_GET_MERCHANT_LISTINGS_DATA_BACK_COMPAT_': {
       title: 'Open Listings Report',
       group: 'Listings',
       format: 'flat',
       request: true
     },
-    '_GET_MERCHANT_LISTINGS_DATA_': {
-      title: 'Merchant Listings Report',
-      group: 'Listings',
-      format: 'flat',
-      request: true
-    },
     '_GET_MERCHANT_LISTINGS_DATA_LITE_': {
-      title: 'Merchant Listings Report - Lite',
+      title: 'Open Listings Report Lite',
       group: 'Listings',
       format: 'flat',
       request: true
     },
     '_GET_MERCHANT_LISTINGS_DATA_LITER_': {
-      title: 'Merchant Listings Report - Liter',
-      group: 'Listings',
-      format: 'flat',
-      request: true
-    },
-    '_GET_CONVERGED_FLAT_FILE_SOLD_LISTINGS_DATA': {
-      title: 'Sold Listings Report',
+      title: 'Open Listings Report Liter',
       group: 'Listings',
       format: 'flat',
       request: true
@@ -60,8 +54,14 @@
       format: 'flat',
       request: true
     },
+    '_GET_CONVERGED_FLAT_FILE_SOLD_LISTINGS_DATA': {
+      title: 'Sold Listings Report',
+      group: 'Listings',
+      format: 'flat',
+      request: true
+    },
     '_GET_MERCHANT_LISTINGS_DEFECT_DATA_': {
-      title: 'Quality Listing Report',
+      title: 'Listing Quality and Suppressed Listing Report',
       group: 'Listings',
       format: 'flat',
       request: true
@@ -77,12 +77,6 @@
       group: 'Orders',
       format: 'xml',
       schedule: true
-    },
-    '_GET_FLAT_FILE_ORDER_REPORT_DATA_': {
-      title: 'Flat File Order Report',
-      group: 'Orders',
-      format: 'flat',
-      request: true
     },
     '_GET_FLAT_FILE_ORDERS_DATA_': {
       title: 'Requested or Scheduled Flat File Order Report',
@@ -183,7 +177,7 @@
       extend(_Class, superClass);
 
       function _Class() {
-        _Class.__super__.constructor.call(this, "ReportTypeList", "Status", ["_SUBMITTED_", "_IN_PROGRESS_", "_CANCELLED_", "_DONE_", "_DONE_NO_DATA_"], false);
+        _Class.__super__.constructor.call(this, "ReportProcessingStatusList", "Status", ["_SUBMITTED_", "_IN_PROGRESS_", "_CANCELLED_", "_DONE_", "_DONE_NO_DATA_"], false);
       }
 
       return _Class;
