@@ -151,7 +151,7 @@ enums =
 
   ReportProcessingStatusList: class extends mws.EnumList
     constructor: ->
-      super("ReportTypeList","Status",["_SUBMITTED_", "_IN_PROGRESS_", "_CANCELLED_", "_DONE_", "_DONE_NO_DATA_"], false)
+      super("ReportProcessingStatusList","Status",["_SUBMITTED_", "_IN_PROGRESS_", "_CANCELLED_", "_DONE_", "_DONE_NO_DATA_"], false)
 
   ReportOptions: class extends mws.Enum
     constructor: ->
