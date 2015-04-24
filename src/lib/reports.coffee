@@ -140,6 +140,11 @@ reportTypes =
     group: 'Settlement'
     format: 'flat'
     request: false
+  '_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_V2_':
+    title: 'Flat File V2 Settlement Report'
+    group: 'Settlement'
+    format: 'flat'
+    request: false
 ###
 Ojects to represent enum collections used by some request(s)
 @type {Object}
