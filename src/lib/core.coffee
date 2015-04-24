@@ -164,7 +164,7 @@ class MWSClient extends EventEmitter
 				strictSSL : @strictSSL,
 				encoding : null,
     }
-    req = HTTPSRequest reqOptions, (error, response, body)=>
+    reqCallback = (error, response, body)=>
       if error
         @emit 'error', error
         cb error, null, body
@@ -188,6 +188,9 @@ class MWSClient extends EventEmitter
             @invoke nextRequest, opts, cb
         @emit 'response', mwsres, parsed
         cb mwsres
+      mwsres.retry = =>
+        req = HTTPSRequest reqOptions, reqCallback
+    req = HTTPSRequest reqOptions, reqCallback
     @emit 'request', req, options
 
 
