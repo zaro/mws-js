@@ -18,133 +18,193 @@ reportTypes =
   # Listing Reports
   '_GET_FLAT_FILE_OPEN_LISTINGS_DATA_':
     title: 'Inventory Report'
-    group: 'Listings'
+    group: 'Listing'
     format: 'flat'
     request: true
   '_GET_MERCHANT_LISTINGS_DATA_':
     title: 'Active Listings Report'
-    group: 'Listings'
+    group: 'Listing'
     format: 'flat'
     request: true
   '_GET_MERCHANT_LISTINGS_DATA_BACK_COMPAT_':
     title: 'Open Listings Report'
-    group: 'Listings'
+    group: 'Listing'
     format: 'flat'
     request: true
   '_GET_MERCHANT_LISTINGS_DATA_LITE_':
     title: 'Open Listings Report Lite'
-    group: 'Listings'
+    group: 'Listing'
     format: 'flat'
     request: true
   '_GET_MERCHANT_LISTINGS_DATA_LITER_':
     title: 'Open Listings Report Liter'
-    group: 'Listings'
+    group: 'Listing'
     format: 'flat'
     request: true
   '_GET_MERCHANT_CANCELLED_LISTINGS_DATA_':
     title: 'Canceled Listings Report'
-    group: 'Listings'
+    group: 'Listing'
     format: 'flat'
     request: true
   '_GET_CONVERGED_FLAT_FILE_SOLD_LISTINGS_DATA':
     title: 'Sold Listings Report'
-    group: 'Listings'
+    group: 'Listing'
     format: 'flat'
     request: true
   '_GET_MERCHANT_LISTINGS_DEFECT_DATA_':
     title: 'Listing Quality and Suppressed Listing Report'
-    group: 'Listings'
+    group: 'Listing'
     format: 'flat'
     request: true
   # Order Reports
   '_GET_FLAT_FILE_ACTIONABLE_ORDER_DATA_':
     title: 'Unshipped Orders Report'
-    group: 'Orders'
+    group: 'Order'
     format: 'flat'
     request: true
+    schedule: true
   '_GET_ORDERS_DATA_':
     title: 'Scheduled XML Order Report'
-    group: 'Orders'
+    group: 'Order'
     format: 'xml'
     schedule: true
-  # '_GET_FLAT_FILE_ORDER_REPORT_DATA_':
-  #   title: 'Flat File Order Report'
-  #   group: 'Orders'
-  #   format: 'flat'
-  #   request: true
   '_GET_FLAT_FILE_ORDERS_DATA_':
     title: 'Requested or Scheduled Flat File Order Report'
-    group: 'Orders'
+    group: 'Order'
     format: 'flat'
     schedule: true
     request: true
   '_GET_CONVERGED_FLAT_FILE_ORDER_REPORT_DATA_':
     title: 'Flat File Order Report'
-    group: 'Orders'
+    group: 'Order'
     format: 'flat'
     schedule: true
     request: true
   # Order Tracking Reports
   '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_':
     title: 'Flat File Orders By Last Update Report'
-    group: 'Orders'
+    group: 'Order Tracking'
     format: 'flat'
     request: true
   '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_':
-    title: 'Flat File Orders By Order Date'
-    group: 'Orders'
+    title: 'Flat File Orders By Order Date Report'
+    group: 'Order Tracking'
     format: 'flat'
     request: true
   '_GET_XML_ALL_ORDERS_DATA_BY_LAST_UPDATE_':
     title: 'XML Orders By Last Update Report'
-    group: 'Orders'
+    group: 'Order Tracking'
     format: 'xml'
     request: true
   '_GET_XML_ALL_ORDERS_DATA_BY_ORDER_DATE_':
-    title: 'XML Orders By Order Date'
-    group: 'Orders'
+    title: 'XML Orders By Order Date Report'
+    group: 'Order Tracking'
     format: 'xml'
     request: true
   # Pending Order Reports
   '_GET_FLAT_FILE_PENDING_ORDERS_DATA_':
     title: 'Flat File Pending Orders Report'
-    group: 'Orders'
+    group: 'Pending Order'
     format: 'flat'
     schedule: true
     request: true
   '_GET_PENDING_ORDERS_DATA_':
     title: 'XML Pending Orders Report'
+    group: 'Pending Order'
     format: 'xml'
     schedule: true
     request: true
   '_GET_CONVERGED_FLAT_FILE_PENDING_ORDERS_DATA_':
     title: 'Converged Flat File Pending Orders Report'
-    group: 'Orders'
+    group: 'Pending Order'
     format: 'flat'
     schedule: true
     request: true
-  # Performance reports
+  # Performance Reports
   '_GET_SELLER_FEEDBACK_DATA_':
-    title: 'Flat File Feedback'
+    title: 'Flat File Feedback Report'
     group: 'Performance'
     format: 'flat'
     request: true
-  # Settlement reports
-  '_GET_FLAT_FILE_PAYMENT_SETTLEMENT_DATA_':
+  # Settlement Reports
+  '_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_':
     title: 'Flat File Settlement Report'
     group: 'Settlement'
     format: 'flat'
     request: false
-  '_GET_ALT_FLAT_FILE_PAYMENT_SETTLEMENT_DATA_':
-    title: 'Flat File Settlement Report'
+  '_GET_V2_SETTLEMENT_REPORT_DATA_XML_':
+    title: 'XML Settlement Report'
     group: 'Settlement'
-    format: 'flat'
+    format: 'xml'
     request: false
   '_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_V2_':
     title: 'Flat File V2 Settlement Report'
     group: 'Settlement'
+    format: 'xml'
+    request: false
+  '_GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_V2_':
+    title: 'Flat File V2 Settlement Report'
+    group: 'Settlement'
+    format: 'xml'
+    request: false
+  '_GET_FLAT_FILE_PAYMENT_SETTLEMENT_DATA_': # deprecated on 2015-03-31
+    title: 'Flat File Settlement Report'
+    group: 'Settlement'
     format: 'flat'
     request: false
+  '_GET_PAYMENT_SETTLEMENT_DATA_': # deprecated on 2015-03-31
+    title: 'XML Settlement Report'
+    group: 'Settlement'
+    format: 'xml'
+    request: false
+  '_GET_ALT_FLAT_FILE_PAYMENT_SETTLEMENT_DATA_': # deprecated on 2015-03-31
+    title: 'Flat File V2 Settlement Report'
+    group: 'Settlement'
+    format: 'flat'
+    request: false
+  # Fulfillment By Amazon (FBA) Reports
+  # FBA Sales Reports
+  '_GET_AMAZON_FULFILLED_SHIPMENTS_DATA_':
+    title: 'FBA Amazon Fulfilled Shipments Report'
+    group: 'FBA Sales'
+    format: 'flat'
+    request: true
+  '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_':
+    title: 'Flat File All Orders Report by Last Update'
+    group: 'FBA Sales'
+    format: 'flat'
+    request: true
+  '_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_':
+    title: 'Flat File All Orders Report by Order Date'
+    group: 'FBA Sales'
+    format: 'flat'
+    request: true
+  '_GET_XML_ALL_ORDERS_DATA_BY_LAST_UPDATE_':
+    title: 'XML All Orders Report by Last Update'
+    group: 'FBA Sales'
+    format: 'xml'
+    request: true
+  '_GET_XML_ALL_ORDERS_DATA_BY_ORDER_DATE_':
+    title: 'XML All Orders Report by Order Date'
+    group: 'FBA Sales'
+    format: 'xml'
+    request: true
+  '_GET_FBA_FULFILLMENT_CUSTOMER_SHIPMENT_SALES_DATA_':
+    title: 'FBA Customer Shipment Sales Report'
+    group: 'FBA Sales'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_CUSTOMER_SHIPMENT_PROMOTION_DATA_':
+    title: 'FBA Promotions Report'
+    group: 'FBA Sales'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_CUSTOMER_TAXES_DATA_':
+    title: 'FBA Customer Taxes'
+    group: 'FBA Sales'
+    format: 'flat'
+    request: true
+
 ###
 Ojects to represent enum collections used by some request(s)
 @type {Object}
