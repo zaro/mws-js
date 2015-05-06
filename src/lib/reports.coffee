@@ -204,7 +204,110 @@ reportTypes =
     group: 'FBA Sales'
     format: 'flat'
     request: true
-
+  # FBA Inventory Reports
+  '_GET_AFN_INVENTORY_DATA_':
+    title: 'FBA Amazon Fulfilled Inventory Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_AFN_INVENTORY_DATA_BY_COUNTRY_':
+    title: 'FBA Multi-Country Inventory Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_CURRENT_INVENTORY_DATA_':
+    title: 'FBA Daily Inventory History Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_MONTHLY_INVENTORY_DATA_':
+    title: 'FBA Monthly Inventory History Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_INVENTORY_RECEIPTS_DATA_':
+    title: 'FBA Received Inventory Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_INVENTORY_SUMMARY_DATA_':
+    title: 'FBA Inventory Event Detail Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_INVENTORY_ADJUSTMENTS_DATA_':
+    title: 'FBA Inventory Adjustments Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_INVENTORY_HEALTH_DATA_':
+    title: 'FBA Inventory Health Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA_':
+    title: 'FBA Manage Inventory'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_MYI_ALL_INVENTORY_DATA_':
+    title: 'FBA Manage Inventory - Archived'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_CROSS_BORDER_INVENTORY_MOVEMENT_DATA_':
+    title: 'FBA Cross-Border Inventory Movement Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_INBOUND_NONCOMPLIANCE_DATA_':
+    title: 'FBA Inbound Performance Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_HAZMAT_STATUS_CHANGE_DATA_':
+    title: 'FBA Hazmat Status Change Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  # FBA Payments Reports
+  '_GET_FBA_ESTIMATED_FBA_FEES_TXT_DATA_':
+    title: 'FBA Fee Preview Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_REIMBURSEMENTS_DATA_':
+    title: 'FBA Reimbursements Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  # FBA Customer Concessions Reports
+  '_GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA_':
+    title: 'FBA Returns Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_CUSTOMER_SHIPMENT_REPLACEMENT_DATA_':
+    title: 'FBA Replacements Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  # FBA Removals Reports
+  '_GET_FBA_RECOMMENDED_REMOVAL_DATA_':
+    title: 'FBA Recommended Removal Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_REMOVAL_ORDER_DETAIL_DATA_':
+    title: 'FBA Removal Order Detail Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
+  '_GET_FBA_FULFILLMENT_REMOVAL_SHIPMENT_DETAIL_DATA_':
+    title: 'FBA Removal Shipment Detail Report'
+    group: 'FBA Inventory'
+    format: 'flat'
+    request: true
 ###
 Ojects to represent enum collections used by some request(s)
 @type {Object}
