@@ -146,10 +146,10 @@ requests =
       ], {}, null, init
 
 
-# The products client notably supports an optional number of marketplaceIds for every
-# query (except service status of course), which will default to @marketplaceIds (non-standard)
-# or @marketplaceID (standard) before eventually throwing an error for missing required field
-# It's easiest to set when calling constructor, me thinks.
+# The products client supports an optional marketplaceId for every
+# query (except service status of course), which will default to @marketplaceId
+# It will throw an error if the marketplaceId is not defined in the instance configuration or the query
+# example: getMatchingProductForId {idType: 'ASIN', ids: ['XXX'], marketplaceId: 'XXX'}, cb
 class ProductsClient extends mws.Client
   constructor: ->
     super
@@ -159,86 +159,86 @@ class ProductsClient extends mws.Client
       status = res.result?.Status ? null
       cb status, res
 
-  listMatchingProducts: (query, context, cb) ->
+  listMatchingProducts: ({query, context, marketplaceId}, cb) ->
     req = new requests.ListMatchingProducts
-      MarketplaceId: @marketplaceId
+      MarketplaceId: marketplaceId ? @marketplaceId
       Query: query
       QueryContextId: context ? undefined
     @invoke req, {}, (res) =>
       cb res
 
-  getMatchingProduct: (asins, cb) ->
+  getMatchingProduct: ({asins, marketplaceId}, cb) ->
     req = new requests.GetMatchingProduct
-      MarketplaceId: @marketplaceId
+      MarketplaceId: marketplaceId ? @marketplaceId
       ASINList: asins ? []
     @invoke req, {}, (res) =>
       cb res
 
-  getMatchingProductForId: (idType, ids , cb) ->
+  getMatchingProductForId: ({idType, ids, marketplaceId}, cb) ->
     req = new requests.GetMatchingProductForId
-      MarketplaceId: @marketplaceId
+      MarketplaceId: marketplaceId ? @marketplaceId
       IdType: idType
       IdList: ids
     @invoke req, {}, (res) =>
       cb res
 
-  getCompetitivePricingForSKU: (skus, cb) ->
+  getCompetitivePricingForSKU: ({skus, marketplaceId}, cb) ->
     req = new requests.GetCompetitivePricingForSKU
-      MarketplaceId: @marketplaceId
+      MarketplaceId: marketplaceId ? @marketplaceId
       SellerSKUList: skus ? []
     @invoke req, {}, (res) =>
       cb res
 
-  getCompetitivePricingForASIN: (asins, cb) ->
+  getCompetitivePricingForASIN: ({asins, marketplaceId}, cb) ->
     req = new requests.GetCompetitivePricingForASIN
-      MarketplaceId: @marketplaceId
+      MarketplaceId: marketplaceId ? @marketplaceId
       ASINList: asins ? []
     @invoke req, {}, (res) =>
       cb res
 
-  getLowestOfferListingsForSKU: (skus, condition, excludeMe, cb) ->
+  getLowestOfferListingsForSKU: ({skus, condition, excludeMe, marketplaceId}, cb) ->
     req = new requests.GetLowestOfferListingsForSKU
-      MarketplaceId:  @marketplaceId
+      MarketplaceId: marketplaceId ? @marketplaceId
       SellerSKUList: skus ? []
       ItemCondition: condition ? undefined
       ExcludeMe: excludeMe ? false
     @invoke req, {}, (res) =>
       cb res
 
-  getLowestOfferListingsForASIN: (asins, condition, cb) ->
+  getLowestOfferListingsForASIN: ({asins, condition, marketplaceId}, cb) ->
     req = new requests.GetLowestOfferListingsForASIN
-      MarketplaceId: @marketplaceId
+      MarketplaceId: marketplaceId ? @marketplaceId
       ASINList: asins ? []
       ItemCondition: condition ? undefined
     @invoke req, {}, (res) =>
       cb res
 
-  getMyPriceForSKU: (skus, condition, cb) ->
+  getMyPriceForSKU: ({skus, condition, marketplaceId}, cb) ->
     req = new requests.GetMyPriceForSKU
-      MarketplaceId:  @marketplaceId
+      MarketplaceId: marketplaceId ? @marketplaceId
       SellerSKUList: skus ? []
       ItemCondition: condition ? undefined
     @invoke req, {}, (res) =>
       cb res
 
-  getMyPriceForASIN: (asins, condition, cb) ->
+  getMyPriceForASIN: ({asins, condition, marketplaceId}, cb) ->
     req = new requests.GetMyPriceForASIN
-      MarketplaceId: @marketplaceId
+      MarketplaceId: marketplaceId ? @marketplaceId
       ASINList: asins ? []
       ItemCondition: condition ? undefined
     @invoke req, {}, (res) =>
       cb res
 
-  getProductCategoriesForSKU: (sku, cb) ->
+  getProductCategoriesForSKU: ({sku, marketplaceId}, cb) ->
     req = new requests.GetProductCategoriesForSKU
-      MarketplaceId: @marketplaceId
+      MarketplaceId: marketplaceId ? @marketplaceId
       SellerSKU: sku
     @invoke req, {}, (res) =>
       cb res
 
-  getProductCategoriesForASIN: (asin, cb) ->
+  getProductCategoriesForASIN: ({asin, marketplaceId}, cb) ->
     req = new requests.GetProductCategoriesForASIN
-      MarketplaceId: @marketplaceId
+      MarketplaceId: marketplaceId ? @marketplaceId
       ASIN: asin
     @invoke req, {}, (res) =>
       cb res
