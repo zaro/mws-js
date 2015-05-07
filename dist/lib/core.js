@@ -54,6 +54,7 @@
       country: 'UnitedStates',
       currency: 'USD',
       domain: 'www.amazon.com',
+      salesChannel: 'Amazon.com',
       marketplaceId: MWS_MARKETPLACES.US,
       charset: 'iso-8859-1'
     },
@@ -66,6 +67,7 @@
       country: 'UnitedKingdom',
       currency: 'GBP',
       domain: 'www.amazon.co.uk',
+      salesChannel: 'Amazon.co.uk',
       marketplaceId: MWS_MARKETPLACES.UK,
       charset: 'iso-8859-1'
     },
@@ -74,6 +76,7 @@
       country: 'France',
       currency: 'EUR',
       domain: 'www.amazon.fr',
+      salesChannel: 'Amazon.fr',
       marketplaceId: MWS_MARKETPLACES.FR,
       charset: 'iso-8859-1'
     },
@@ -82,6 +85,7 @@
       country: 'Germany',
       currency: 'EUR',
       domain: 'www.amazon.de',
+      salesChannel: 'Amazon.de',
       marketplaceId: MWS_MARKETPLACES.DE,
       charset: 'iso-8859-1'
     },
@@ -90,6 +94,7 @@
       country: 'Italy',
       currency: 'EUR',
       domain: 'www.amazon.it',
+      salesChannel: 'Amazon.it',
       marketplaceId: MWS_MARKETPLACES.IT,
       charset: 'iso-8859-1'
     },
@@ -98,6 +103,7 @@
       country: 'Spain',
       currency: 'EUR',
       domain: 'www.amazon.es',
+      salesChannel: 'Amazon.es',
       marketplaceId: MWS_MARKETPLACES.ES,
       charset: 'iso-8859-1'
     },
@@ -106,6 +112,7 @@
       country: 'Canada',
       currency: 'CAD',
       domain: 'www.amazon.ca',
+      salesChannel: 'Amazon.ca',
       marketplaceId: MWS_MARKETPLACES.CA,
       charset: 'iso-8859-1'
     },
@@ -114,6 +121,7 @@
       country: 'China',
       currency: 'CNY',
       domain: 'www.amazon.cn',
+      salesChannel: 'Amazon.cn',
       marketplaceId: MWS_MARKETPLACES.CN,
       charset: 'UTF-8'
     },
@@ -122,6 +130,7 @@
       country: 'Japan',
       currency: 'JPY',
       domain: 'www.amazon.jp',
+      salesChannel: 'Amazon.jp',
       marketplaceId: MWS_MARKETPLACES.JP,
       charset: 'Shift_JIS'
     },
@@ -130,6 +139,7 @@
       country: 'India',
       currency: 'INR',
       domain: 'www.amazon.in',
+      salesChannel: 'Amazon.in',
       marketplaceId: MWS_MARKETPLACES.IN,
       charset: 'UTF-8'
     }
@@ -231,7 +241,7 @@
     };
 
     MWSClient.prototype.invoke = function(request, options, cb) {
-      var agentParams, h, q, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, req, reqOptions, v;
+      var agentParams, h, q, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, req, reqCallback, reqOptions, v;
       if (request != null ? request.body : void 0) {
         request.md5Calc();
       }
@@ -287,7 +297,7 @@
         strictSSL: this.strictSSL,
         encoding: null
       };
-      req = HTTPSRequest(reqOptions, (function(_this) {
+      reqCallback = (function(_this) {
         return function(error, response, body) {
           var mwsres;
           if (error) {
@@ -297,7 +307,7 @@
           }
           mwsres = new MWSResponse(response, body, options);
           mwsres.parseHeaders();
-          return mwsres.parseBody(function(err, parsed) {
+          mwsres.parseBody(function(err, parsed) {
             var invokeOpts, nextRequest, ref10, ref8, ref9;
             if ((options.nextTokenCall != null) && (((ref8 = mwsres.result) != null ? (ref9 = ref8.NextToken) != null ? ref9.length : void 0 : void 0) > 0)) {
               invokeOpts = {
@@ -327,8 +337,13 @@
             _this.emit('response', mwsres, parsed);
             return cb(mwsres);
           });
+          return mwsres.retry = function() {
+            var req;
+            return req = HTTPSRequest(reqOptions, reqCallback);
+          };
         };
-      })(this));
+      })(this);
+      req = HTTPSRequest(reqOptions, reqCallback);
       return this.emit('request', req, options);
     };
 
