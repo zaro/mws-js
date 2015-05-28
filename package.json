@@ -6,26 +6,25 @@
     "amazon",
     "marketplace"
   ],
-  "homepage": "_",
   "version": "0.1.1",
   "author": "Eibbor Srenduas <r@eibbors.com> (http://eibbors,com)",
   "contributors": [],
-  "main": "./lib/mws",
-  "directories": {
-    "lib": "./lib"
-  },
+  "main": "./dist/",
   "repository": {
     "type": "git",
     "url": "https://github.com/eibbors/mws-js.git"
   },
   "dependencies": {
-    "xml2js": "=0.1.13",
-    "xmlbuilder": "",
-    "request" : "",
-    "iconv-lite" : ""
+    "iconv-lite" : "0.4.10",
+    "xml2js": "0.1.13",
+    "xmlbuilder": "2.6.1",
+    "request": "2.53.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-browserify": "~0.2.3"
+    "coffee-script": "^1.9.3",
+    "gulp": "^3.8.11",
+    "gulp-coffee": "^2.3.1",
+    "gulp-plumber": "^1.0.1",
+    "gulp-util": "^3.0.4"
   }
 }

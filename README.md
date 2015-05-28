@@ -21,10 +21,20 @@ Simple example
 --------------
 Fetching a product info:
 ```
-mws = require equire 'mws-js'
+mws = require 'mws-js'
+
+loginInfo = 
+  locale: 'US'
+  merchantId: 'XXXXXXX'
+  marketplaceId: 'XXXXXXX'
+  accessKeyId: 'XXXXXXX'
+  secretAccessKey: 'XXXXX'
+
+ASIN_ID = 'XXXXX' # This could be an array of IDs
+
 client = new mws.products.Client(loginInfo)
 
-client.getMatchingProductForId 'ASIN', ASIN_ID , (res) =>
+client.getMatchingProductForId {idType: 'ASIN', ids: ASIN_ID}, (res) =>
 	if res.error
 		console.error res.error
 	else if res.result
@@ -33,3 +43,13 @@ client.getMatchingProductForId 'ASIN', ASIN_ID , (res) =>
 ```
 
 You can have a look at test directory for more examples.
+
+Development
+===========
+Install dependencies
+
+      npm install
+
+Build from source and automatically build when source files change 
+
+      gulp
