@@ -30,11 +30,11 @@ loginInfo =
   accessKeyId: 'XXXXXXX'
   secretAccessKey: 'XXXXX'
 
-ASIN_ID = 'XXXXX'
+ASIN_ID = 'XXXXX' # This could be an array of IDs
 
 client = new mws.products.Client(loginInfo)
 
-client.getMatchingProductForId 'ASIN', ASIN_ID , (res) =>
+client.getMatchingProductForId {idType: 'ASIN', ids: ASIN_ID}, (res) =>
 	if res.error
 		console.error res.error
 	else if res.result
@@ -50,10 +50,6 @@ Install dependencies
 
       npm install
 
-Build from source
+Build from source and automatically build when source files change 
 
-      grunt build
-
-Automatically build when source files change
-
-      grunt dev
+      gulp

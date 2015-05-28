@@ -12,7 +12,7 @@ client.getServiceStatus (status, res) =>
 	unless status in ['GREEN', 'GREEN_I']
 		throw 'Products service is having issues, aborting...'
 
-	client.getMatchingProductForId 'ASIN', 'B00BY7IZQE' , (res) =>
+	client.getMatchingProductForId {idType: 'ASIN', ids: 'B00BY7IZQE'} , (res) =>
 		if res.error
 			console.error res.error
 		else if res.result

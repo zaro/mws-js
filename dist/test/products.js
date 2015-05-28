@@ -14,7 +14,10 @@ client.getServiceStatus((function(_this) {
     if (status !== 'GREEN' && status !== 'GREEN_I') {
       throw 'Products service is having issues, aborting...';
     }
-    return client.getMatchingProductForId('ASIN', 'B00BY7IZQE', function(res) {
+    return client.getMatchingProductForId({
+      idType: 'ASIN',
+      ids: 'B00BY7IZQE'
+    }, function(res) {
       if (res.error) {
         return console.error(res.error);
       } else if (res.result) {
