@@ -15,7 +15,7 @@
     "url": "https://github.com/eibbors/mws-js.git"
   },
   "dependencies": {
-    "iconv-lite" : "",
+    "iconv-lite" : "0.4.10",
     "xml2js": "0.1.13",
     "xmlbuilder": "2.6.1",
     "request": "2.53.0"
