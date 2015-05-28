@@ -1,22 +1,17 @@
-(function() {
-  var mws;
+var mws;
 
-  mws = require('./lib/core');
+mws = require('./lib/core');
 
-  mws.fba = require('./lib/fba');
+mws.fba = require('./lib/fba');
 
-  mws.feeds = require('./lib/feeds');
+mws.feeds = require('./lib/feeds');
 
-  mws.orders = require('./lib/orders');
+mws.orders = require('./lib/orders');
 
-  mws.products = require('./lib/products');
+mws.products = require('./lib/products');
 
-  mws.reports = require('./lib/reports');
+mws.reports = require('./lib/reports');
 
-  mws.sellers = require('./lib/sellers');
+mws.sellers = require('./lib/sellers');
 
-  module.exports = mws;
-
-}).call(this);
-
-//# sourceMappingURL=index.js.map
+module.exports = mws;

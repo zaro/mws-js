@@ -1,30 +1,25 @@
-(function() {
-  var client, dump, loginInfo, print, products, ref, util;
+var client, dump, loginInfo, print, products, ref, util;
 
-  products = require('../lib/products');
+products = require('../lib/products');
 
-  util = require('util');
+util = require('util');
 
-  ref = require('./cfg'), loginInfo = ref.loginInfo, dump = ref.dump, print = ref.print;
+ref = require('./cfg'), loginInfo = ref.loginInfo, dump = ref.dump, print = ref.print;
 
-  client = new products.Client(loginInfo);
+client = new products.Client(loginInfo);
 
-  client.getServiceStatus((function(_this) {
-    return function(status, res) {
-      print("Products service status", status);
-      if (status !== 'GREEN' && status !== 'GREEN_I') {
-        throw 'Products service is having issues, aborting...';
+client.getServiceStatus((function(_this) {
+  return function(status, res) {
+    print("Products service status", status);
+    if (status !== 'GREEN' && status !== 'GREEN_I') {
+      throw 'Products service is having issues, aborting...';
+    }
+    return client.getMatchingProductForId('ASIN', 'B00BY7IZQE', function(res) {
+      if (res.error) {
+        return console.error(res.error);
+      } else if (res.result) {
+        return console.log(util.inspect(res.result, false, 10));
       }
-      return client.getMatchingProductForId('ASIN', 'B00BY7IZQE', function(res) {
-        if (res.error) {
-          return console.error(res.error);
-        } else if (res.result) {
-          return console.log(util.inspect(res.result, false, 10));
-        }
-      });
-    };
-  })(this));
-
-}).call(this);
-
-//# sourceMappingURL=products.js.map
+    });
+  };
+})(this));
