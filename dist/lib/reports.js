@@ -727,7 +727,7 @@ ReportsClient = (function(superClass) {
     var req;
     req = new requests.GetReport(options);
     return this.invoke(req, {
-      allowedContentTypes: ['application/octet-stream', 'text', 'text/plain', 'text; charset=UTF-8']
+      allowedContentTypes: ['application/octet-stream', 'text', 'text/plain', 'text; charset=UTF-8', 'text/plain;charset=UTF-8']
     }, (function(_this) {
       return function(res) {
         var report;

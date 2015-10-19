@@ -518,7 +518,7 @@ class ReportsClient extends mws.Client
   # Callback function should be (report, res) ->
   getReport: (options, cb)->
     req = new requests.GetReport options
-    @invoke  req, { allowedContentTypes: [ 'application/octet-stream' , 'text', 'text/plain', 'text; charset=UTF-8'] }, (res) =>
+    @invoke  req, { allowedContentTypes: [ 'application/octet-stream' , 'text', 'text/plain', 'text; charset=UTF-8', 'text/plain;charset=UTF-8'] }, (res) =>
       report = res.response
       cb report, res
 
