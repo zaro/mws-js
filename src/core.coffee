@@ -260,6 +260,7 @@ class MWSResponse
   parseBody: (cb) ->
     isXml = false
     contentType = @headers['content-type'] ? 'text/plain'
+    contentType = contentType.split(';')[0].trim()
     if contentType.indexOf('text/xml') == 0
       @body = @body.toString()
       isXml = true
@@ -287,7 +288,7 @@ class MWSResponse
                 # if @result.NextToken? then @nextToken = @result.NextToken
               if v.ResponseMetadata? then @meta.response = v.ResponseMetadata
           cb err, res
-    else if @headers['content-type'] in @allowedContentTypes
+    else if contentType in @allowedContentTypes
       md5 = crypto.createHash('md5').update(@body).digest("base64")
       if @headers['content-md5'] == md5
         @response = @body
