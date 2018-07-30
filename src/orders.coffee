@@ -12,8 +12,8 @@ mws = require './core'
 MWS_ORDERS = new mws.Service
   name: "Orders"
   group: "Order Retrieval"
-  path: "/Orders/2011-01-01"
-  version: "2011-01-01"
+  path: "/Orders/2013-09-01"
+  version: "2013-09-01"
   legacy: false
 
 # Enumeration param definitions
